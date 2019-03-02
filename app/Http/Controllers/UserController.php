@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -50,7 +51,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -61,7 +62,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -73,7 +74,26 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = [];
+
+        // validation
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+        $data['name'] = $request->input('name');
+
+        if(! empty($request->input('password'))) {
+            $this->validate($request, [
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        // save
+        $user->update($data);
+        
+        // redirect
+        return redirect()->route('users.show', $user);
     }
 
     /**
