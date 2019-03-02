@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -40,7 +40,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate
+        $this->validate($request, [
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $data = $request->only('email', 'name', 'password');
+        $data['password'] = Hash::make($data['password']);
+
+        // store
+        $user = User::create($data);
+
+        // redirect
+        return redirect()->route('users.show', $user);
     }
 
     /**
@@ -79,9 +93,13 @@ class UserController extends Controller
         // validation
         $this->validate($request, [
             'name' => 'required',
+            // 'email' ...
         ]);
-        $data['name'] = $request->input('name');
-
+        $data = $request->only('name', 'email');
+        // [
+        //     'name' => 'ahmad',
+        //     'email' => 'email@eaml.com',
+        // ]
         if(! empty($request->input('password'))) {
             $this->validate($request, [
                 'password' => ['required', 'string', 'min:8', 'confirmed'],

@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row card">
 			<div class="col card-body">
-				<a href="" class="btn btn-default btn-primary mb-3 float-right mr-3">
+				<a href="{{ route('users.create') }}" class="btn btn-default btn-primary mb-3 float-right mr-3">
 					Create New User
 				</a>
 				<table class="table table-sm table-hover">
