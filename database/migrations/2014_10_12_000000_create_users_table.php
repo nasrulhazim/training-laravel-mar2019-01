@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            // Refer https://laravel.com/docs/5.8/verification
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
