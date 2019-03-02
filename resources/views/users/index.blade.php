@@ -24,6 +24,18 @@
 								<a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-default btn-success">
 									Edit
 								</a>
+								<div class="btn btn-sm btn-danger" onclick="
+									if(confirm('Are you sure want to delete this user?')) {
+										document.getElementById('delete-user-{{ $user->id }}').submit();
+									}
+								">
+									Delete
+								</div>
+								<form id="delete-user-{{ $user->id }}" 
+									action="{{ route('users.destroy', $user) }}" 
+									method="POST">
+									@csrf @method('DELETE')
+								</form>
 
 							</td>
 						</tr>
