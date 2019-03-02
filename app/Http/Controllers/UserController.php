@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // select * from users;
+        // https://laravel.com/docs/5.8/pagination#displaying-pagination-results
+        $users = User::paginate(10); // select * from users;
         return view('users.index', compact('users'));
         // return view('users.index')->with('users', $users);
         // return view('users.index', ['users' => $users]);
