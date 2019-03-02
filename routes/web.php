@@ -11,10 +11,25 @@
 |
 */
 
+
+/**
+ * Using Closure
+ */
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/**
+ * Using Controller's Action
+ */
+Route::get('/home', 
+	'HomeController@index'
+)->name('home');
+
+
+Route::resource('users', 'UserController');
+
+
+
